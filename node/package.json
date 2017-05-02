@@ -1,40 +1,41 @@
 {
-    "name": "kinesis-aggregation",
-    "description": "Node.js module to simplify processing of Kinesis Records which are encoded with Google Protocol Buffers",
-    "version": "2.1.2",
-    "homepage": "http://github.com/awslabs/kinesis-aggregation",
-    "bugs": {
-        "url": "http://github.com/awslabs/kinesis-aggregation",
-        "email": "meyersi@amazon.com"
-    },
-    "dependencies": {
-        "async": "1.5.2",
-        "protobufjs": "5.0.1",
-        "aws-kinesis-agg": "2.2.2"
-    },
-    "keywords": [
-        "amazon",
-        "kinesis",
-        "lambda",
-        "aggregation"
-    ],
-    "author": {
-        "name": "Ian Meyers",
-        "email": "meyersi@amazon.com"
-    },
-    "main": "./sample.js",
-    "files": [
-        "index.js",
-        "test.js",
-        "build.sh",
-        "README.md",
-        "LICENSE"
-    ],
-    "license" : "SEE LICENSE IN LICENSE.txt",
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/awslabs/kinesis-aggregation"
-    }
+  "name": "kinesis-aggregation",
+  "description": "Node.js module to simplify processing of Kinesis Records which are encoded with Google Protocol Buffers",
+  "version": "2.1.2",
+  "homepage": "http://github.com/awslabs/kinesis-aggregation",
+  "bugs": {
+    "url": "http://github.com/awslabs/kinesis-aggregation",
+    "email": "meyersi@amazon.com"
+  },
+  "dependencies": {
+    "async": "1.5.2",
+    "aws-kinesis-agg": "2.2.2",
+    "aws-sdk": "^2.48.0",
+    "protobufjs": "5.0.1",
+    "proxy-agent": "^2.0.0",
+    "underscore": "^1.8.3"
+  },
+  "keywords": [
+    "amazon",
+    "kinesis",
+    "lambda",
+    "aggregation"
+  ],
+  "author": {
+    "name": "Ian Meyers",
+    "email": "meyersi@amazon.com"
+  },
+  "main": "./sample.js",
+  "files": [
+    "index.js",
+    "test.js",
+    "build.sh",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/awslabs/kinesis-aggregation"
+  }
 }
-        
-        

@@ -10,43 +10,30 @@
 
 var deaggregator = require('./sample-deaggregation');
 var libPath = "./node_modules/aws-kinesis-agg"
-var aggregator = require(libPath + '/RecordAggregator');
+//var aggregator = require(libPath + '/RecordAggregator');
 require(libPath + "/constants");
-
+var dateProcessor=require('./DateProcessor')
 // sample kinesis event - record 0 has no data, and will be filled in with
 // dynamic content using protobuf
 var event = {
-	"Records" : [
-			{
-				"kinesis" : {
-					"kinesisSchemaVersion" : "1.0",
-					"partitionKey" : "-48903309263388366",
-					"sequenceNumber" : "49550822123942288925422195661801699673398497972964035234",
-					"data" : undefined
-				},
-				"eventSource" : "aws:kinesis",
-				"eventVersion" : "1.0",
-				"eventID" : "shardId-000000000176:49550822123942288925422195661801699673398497972964035234",
-				"eventName" : "aws:kinesis:record",
-				"invokeIdentityArn" : "arn:aws:iam::999999999999:role/LambdaExecRole",
-				"awsRegion" : "eu-west-1",
-				"eventSourceARN" : "arn:aws:kinesis:eu-west-1:999999999999:stream/MyStream"
-			},
-			{
-				"kinesis" : {
-					"kinesisSchemaVersion" : "1.0",
-					"partitionKey" : "-48903309263388367",
-					"sequenceNumber" : "49550822123942288925422195661801699673398497972964035235",
-					"data" : "MzcxICgxZikgdHMtMTQzNTczODI4ODkxOSA1Ni4zNjM5MTkwNzg3ODk0NXgtMS42NDA1NjI4ODM3NDE1MjAzIDEwOS45NzkzOTQwMzc4NDA1NSBhdCAxNi4xMjMyNjMyOTY0NjM2MDUgVDoyLjIxMTY3MjU2ODE0NTYwNDQgYzogIDAuMDAxMTk0IGRlZyAgMC4wMDAwMDE="
-				},
-				"eventSource" : "aws:kinesis",
-				"eventVersion" : "1.0",
-				"eventID" : "shardId-000000000176:49550822123942288925422195661801699673398497972964035234",
-				"eventName" : "aws:kinesis:record",
-				"invokeIdentityArn" : "arn:aws:iam::999999999999:role/LambdaExecRole",
-				"awsRegion" : "eu-west-1",
-				"eventSourceARN" : "arn:aws:kinesis:eu-west-1:999999999999:stream/MyStream"
-			} ]
+  "Records": [
+    {
+      "kinesis": {
+        "kinesisSchemaVersion": "1.0",
+        "partitionKey": "a",
+        "sequenceNumber": "49572815560010421343297161792929245786962888214485925890",
+        "data": "84mawgoHbW1fZGF0YRp4CAAadHsidHhuVGltZVN0YW1wIjoxNDkzNjY4MDIyMTEyLCJhbW91bnQiOjM1MC4wLCJ0eG5UeXBlIjoiam91cm5hbCIsImFncmVlbWVudFR5cGUiOiJkaXN0cmlidXRpb24iLCJjaGFubmVsIjoiZmlkLmNvbSJ9GngIABp0eyJ0eG5UaW1lU3RhbXAiOjE0OTM2NjgwMjI4OTAsImFtb3VudCI6MzUwLjAsInR4blR5cGUiOiJqb3VybmFsIiwiYWdyZWVtZW50VHlwZSI6ImRpc3RyaWJ1dGlvbiIsImNoYW5uZWwiOiJmaWQuY29tIn2wO6mqiRlfnCZrPNG2vNwe",
+        "approximateArrivalTimestamp": 1493668037.182
+      },
+      "eventSource": "aws:kinesis",
+      "eventVersion": "1.0",
+      "eventID": "shardId-000000000000:49572815560010421343297161792929245786962888214485925890",
+      "eventName": "aws:kinesis:record",
+      "invokeIdentityArn": "arn:aws:iam::067486486397:role/asankalambdakenesisdynamo",
+      "awsRegion": "us-east-1",
+      "eventSourceARN": "arn:aws:kinesis:us-east-1:067486486397:stream/mm_2"
+    }
+  ]
 };
 
 /** mock context object to simulate AWS Lambda context */
@@ -66,25 +53,18 @@ context.getRemainingTimeInMillis = function() {
 	return 60000;
 };
 
-var rawRecords = [ {
-	PartitionKey : 'aaaaaaaaa',
-	ExplicitHashKey : 'ccccccccc',
-	Data : new Buffer('Testing KPL Aggregated Record 1')
-}, {
-	PartitionKey : 'bbbbbbbb',
-	ExplicitHashKey : 'ccccccccc',
-	Data : new Buffer('Testing KPL Aggregated Record 2')
-} ];
-
 try {
 	// use the message aggregator to generated an encoded value
-	aggregator.aggregate(rawRecords, function(err, encoded) {
-		// bind the encoded value into the existing kinesis record set
-		event.Records[0].kinesis.data = encoded;
+	// aggregator.aggregate(rawRecords, function(err, encoded) {
+	// 	// bind the encoded value into the existing kinesis record set
+	// 	event.Records[0].kinesis.data = encoded;
 
-		// use the deaggregator to extract the data
-		deaggregator.exampleAsync(event, context);
-	});
+	// 	// use the deaggregator to extract the data
+	// 	deaggregator.exampleAsync(event, context);
+	// });
+	dateProcessor.processDate(event,context);
+
+
 } catch (e) {
 	console.log(e);
 	console.log(JSON.stringify(e));
